@@ -2,8 +2,21 @@
 library(reshape2)
 library(tidyverse)
 
-# Set Working Directories ----------------
-DirMAIN  <- "/Users/dondealban/Library/CloudStorage/OneDrive-ClearWindPteLtd/GitHub Repositories/apd-eda-case-studies/"
+# Define Working Directories -------------
+DirMAIN <- "/Users/dondealban/Library/CloudStorage/OneDrive-ClearWindPteLtd/GitHub Repositories/apd-eda-case-studies/"
+DirSRCE = paste(DirMAIN, "0_source/", sep = "")
+DirEXTR = paste(DirMAIN, "1_extract/", sep = "")
+DirTRAN = paste(DirMAIN, "2_transform/", sep = "")
+DirLOAD = paste(DirMAIN, "3_transform/", sep = "")
+DirOUTP = paste(DirMAIN, "4_load/", sep = "")
+
+# Read Source Data Files -----------------
+setwd(DirSRCE)
+csvDEFO <- read.csv(file="raw-data-defo-cadt-mining-tenement type.csv", header=TRUE, sep=",")
+
+
+
+
 
 # Read Data Files ------------------------
 setwd(DirMAIN)
