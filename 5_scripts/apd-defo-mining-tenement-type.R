@@ -14,23 +14,28 @@ DirOUTP = paste(DirMAIN, "4_load/", sep = "")
 setwd(DirSRCE)
 csvDEFO <- read.csv(file="raw-data-defo-cadt-mining-tenement type.csv", header=TRUE, sep=",")
 
+# Transform Data File -------------------
 
+# Convert csv input file into dataframe
+dfDEFO <- csvDEFO
+# Rename column names
+colnames(dfDEFO) <- c("Tenement.Type","CADT.Number","Defo.1st.Half.HRP","Defo.2nd.Half.HRP")
+# Add 1st and 2nd half of deforestation historical reference period
+dfDEFO$Defo.Full.HRP <- dfDEFO$Defo.1st.Half.HRP + dfDEFO$Defo.2nd.Half.HRP
+# Transform dataframe from wide-format to long-format
+tranDEFO <- melt(dfDEFO, id.vars=c("Tenement.Type","CADT.Number","Defo.1st.Half.HRP","Defo.2nd.Half.HRP","Defo.Full.HRP"))
 
-
-
-# Read Data Files ------------------------
-setwd(DirMAIN)
-csvDEFO <- read.csv(file="Deforestation_MINING&ROAD_Don.csv", header=TRUE, sep=",")
-colnames(csvDEFO) <- c("Tenement.Type","CADT.Number","Defo.1st.Half.HRP","Defo.2nd.Half.HRP","Defo.Full.HRP")
-
-# Wrangle Input Data Files --------------
-# Convert dataframe from wide-format to long-format
-dfDEFO <- melt(csvDEFO, id.vars=c("Tenement.Type","CADT.Number","Defo.1st.Half.HRP","Defo.2nd.Half.HRP","Defo.Full.HRP"))
 # Remove rows in dataframes that satisfy conditions
-dfDEFO <- dfDEFO %>% filter(!(CADT.Number==0))
+tranDEFO <- tranDEFO %>% filter(!(CADT.Number==0))
 # Replace variable contents
-dfDEFO[dfDEFO=="AMPSA"] <- "APSA"
-dfDEFO[dfDEFO=="-"] <- "Unknown"
+tranDEFO[tranDEFO=="APSA"] <- "AMPSA"
+tranDEFO[tranDEFO=="Coal"] <- "COAL"
+tranDEFO[tranDEFO=="-"] <- "UNKNOWN"
+
+# Save dataframe as csv file in transform folder
+write.csv(tranDEFO, paste(DirTRAN, "tranDEFO.csv", sep=""), row.names=FALSE)
+
+
 
 # Generate Plots -------------------------
 
