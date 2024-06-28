@@ -38,9 +38,8 @@ write.csv(tranDEFO, paste(DirTRAN, "transform-defo-cadt-mining-tenement type.csv
 # GENERATE PLOTS -------------------------
 
 # Deforestation within each mining tenement type inside each ancestral domain
-plotDEFO <- ggplot() + geom_bar(data=tranDEFO, aes(x=factor(CADT.Number), y=Defo.Full.HRP, fill="#000000"), stat="identity", position=position_dodge())
-plotDEFO <- plotDEFO + scales_fill_manual()
-
+plotDEFO <- ggplot() + geom_bar(data=tranDEFO, aes(x=factor(CADT.Number), y=Defo.Full.HRP, fill="#ff0000"), stat="identity", position=position_dodge())
+plotDEFO <- plotDEFO + scale_fill_manual(values=c("#ff0000"))
 plotDEFO <- plotDEFO + facet_wrap(~Tenement.Type, scales="free_y")
 plotDEFO <- plotDEFO + labs(x="CADT Number", y="Total Area of Deforestation (ha) during HRP 2013-2022")
 plotDEFO <- plotDEFO + guides(fill="none")
