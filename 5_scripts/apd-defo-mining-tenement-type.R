@@ -37,15 +37,22 @@ write.csv(tranDEFO, paste(DirTRAN, "transform-defo-cadt-mining-tenement type.csv
 
 # GENERATE PLOTS -------------------------
 
-# Deforestation within each mining tenement type inside each ancestral domain
-plotDEFO <- ggplot() + geom_bar(data=tranDEFO, aes(x=factor(CADT.Number), y=Defo.Full.HRP, fill="#ff0000"), stat="identity", position=position_dodge())
-plotDEFO <- plotDEFO + scale_fill_manual(values=c("#ff0000"))
-plotDEFO <- plotDEFO + facet_wrap(~Tenement.Type, scales="free_y")
-plotDEFO <- plotDEFO + labs(x="CADT Number", y="Total Area of Deforestation (ha) during HRP 2013-2022")
-plotDEFO <- plotDEFO + guides(fill="none")
-plotDEFO <- plotDEFO + theme(axis.text.x=element_text(size=5))
-plotDEFO
+# Plot 1: deforestation within each mining tenement type inside each ancestral domain
+plot1 <- ggplot() + geom_bar(data=tranDEFO, aes(x=factor(CADT.Number), y=Defo.Full.HRP, fill="#ff0000"), stat="identity", position="dodge")
+plot1 <- plot1 + scale_fill_manual(values=c("#ff0000"))
+plot1 <- plot1 + facet_wrap(~Tenement.Type, scales="free_y")
+plot1 <- plot1 + labs(x="CADT Number", y="Total Area of Deforestation (ha) during HRP 2013-2022")
+plot1 <- plot1 + guides(fill="none")
+plot1 <- plot1 + theme(axis.text.x=element_text(size=5))
+plot1
+
+# Plot 2: deforestation within each mining tenement type inside each ancestral domain
+plot2 <- ggplot() + geom_bar(data=tranDEFO, aes(x=factor(CADT.Number), y=Defo.Full.HRP, fill=Tenement.Type), stat="identity", position="stack")
+plot2 <- plot2 + labs(x="CADT Number", y="Total Area of Deforestation (ha) during HRP 2013-2022")
+plot2 <- plot2 + scale_fill_discrete(name="Tenement Type")
+plot2
 
 # Save output plots in output folder
 setwd(DirOUTP)
-ggsave(plotDEFO, file="Defo-CADT-Mining-Tenement-Type.pdf", width=30, height=15, units="cm", dpi=300)
+ggsave(plot1, file="Defo-CADT-Mining-Tenement-Type-1.pdf", width=30, height=15, units="cm", dpi=300)
+ggsave(plot2, file="Defo-CADT-Mining-Tenement-Type-2.pdf", width=30, height=15, units="cm", dpi=300)
