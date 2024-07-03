@@ -40,4 +40,8 @@ plot1 <- plot1 + scale_fill_manual(values=c("#ffc0cb","#ff0000"), name="Years")
 plot1 <- plot1 + labs(x="Buffer Distance from Roads (meters)", y="Total Area of Deforestation (ha) during HRP 2013-2022")
 plot1
 
+# Save output plots in output folder
+setwd(DirOUTP)
+ggsave(plot1, file="Defo-CADT-Road-Dev-Buffer-1-30x15.pdf", width=30, height=15, units="cm", dpi=300)
+ggsave(plot1, file="Defo-CADT-Road-Dev-Buffer-1-20x15.pdf", width=20, height=15, units="cm", dpi=300)
 
