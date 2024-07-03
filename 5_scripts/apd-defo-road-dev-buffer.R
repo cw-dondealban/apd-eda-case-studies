@@ -24,14 +24,20 @@ dfDEFO <- csvDEFO
 # Transform dataframe from wide-format to long-format
 tranDEFO <- melt(dfDEFO, id.vars=c("Agent","Buffer"))
 # Rename column names
-colnames(tranDEFO) <- c("Agent","BufferDist","HalfHRP","AreaHa")
-# Replace variable contents
-
+colnames(tranDEFO) <- c("Agent","BufferDist","HalfHRP","DefoAreaHa")
+# Replace variable contents for the factor column (HalfHRP)
 levels(tranDEFO$HalfHRP)[levels(tranDEFO$HalfHRP) == "Deforested_in_1st_half_HRP"] <- "2013-2018"
-
-
-tranDEFO[tranDEFO=="Deforested_in_1st_half_HRP"] <- factor(c("2013-2018","2018-2022"))
-tranDEFO[tranDEFO=="Deforested_in_2nd_half_HRP"] <- factor(c("2018-2022"))
+levels(tranDEFO$HalfHRP)[levels(tranDEFO$HalfHRP) == "Deforested_in_2nd_half_HRP"] <- "2018-2022"
 
 # Save dataframe as csv file in transform folder
 write.csv(tranDEFO, paste(DirTRAN, "transform-defo-cadt-road-dev-buffer.csv", sep=""), row.names=FALSE)
+
+# GENERATE PLOTS -------------------------
+
+# Plot 1: deforestation within each road development buffer distance range inside ancestral domains
+plot1 <- ggplot() + geom_bar(data=tranDEFO, aes(x=factor(BufferDist), y=DefoAreaHa, fill=HalfHRP), stat="identity", position="stack")
+plot1 <- plot1 + scale_fill_manual(values=c("#ffc0cb","#ff0000"), name="Years")
+plot1 <- plot1 + labs(x="Buffer Distance from Roads (meters)", y="Total Area of Deforestation (ha) during HRP 2013-2022")
+plot1
+
+
