@@ -47,20 +47,22 @@ levels(tranDEFO$LandCover)[levels(tranDEFO$LandCover) == "Swamp_forest__closed"]
 levels(tranDEFO$LandCover)[levels(tranDEFO$LandCover) == "Swamp_forest__open"]         <- "Swamp forest, open"
 levels(tranDEFO$LandCover)[levels(tranDEFO$LandCover) == "Water_body"]                 <- "Water body"
 
-
 # Save dataframe as csv file in transform folder
-write.csv(tranDEFO, paste(DirTRAN, "transform-defo-cadt-road-dev-buffer.csv", sep=""), row.names=FALSE)
+write.csv(tranDEFO, paste(DirTRAN, "transform-lcc-defo-cadt-road-dev-buffer.csv", sep=""), row.names=FALSE)
 
 # GENERATE PLOTS -------------------------
 
-# Plot 1: deforestation within each road development buffer distance range inside ancestral domains
-plot1 <- ggplot() + geom_bar(data=tranDEFO, aes(x=factor(BufferDist), y=DefoAreaHa, fill=HalfHRP), stat="identity", position="stack")
-plot1 <- plot1 + scale_fill_manual(values=c("#ffc0cb","#ff0000"), name="Years")
+# Plot 1: land cover of the deforestation within each road development buffer distance range inside ancestral domains
+plot1 <- ggplot() + geom_bar(data=tranDEFO, aes(x=factor(BufferDist), y=DefoAreaHa, fill=LandCover), stat="identity", position="stack")
+plot1 <- plot1 + scale_fill_manual(values=c("#ff0000","#ffe67c","#004700","#638026","#b97f63",
+                                            "#8000ff","#acff98","#74cc80","#1e0000","#ffff66",
+                                            "#ffdc7c","#ff7dff","#ffb9ff","#00be00","#63dc26",
+                                            "#ffbe7c","#b6d466","#009600","#63b426","#66ccff"),
+                                   name="Years")
 plot1 <- plot1 + labs(x="Buffer Distance from Roads (meters)", y="Total Area of Deforestation (ha) during HRP 2013-2022")
 plot1
 
 # Save output plots in output folder
 setwd(DirOUTP)
-ggsave(plot1, file="Defo-CADT-Road-Dev-Buffer-1-30x15.pdf", width=30, height=15, units="cm", dpi=300)
-ggsave(plot1, file="Defo-CADT-Road-Dev-Buffer-1-20x15.pdf", width=20, height=15, units="cm", dpi=300)
+ggsave(plot1, file="Defo-LCC-CADT-Road-Dev-Buffer-1-15x15.pdf", width=30, height=15, units="cm", dpi=300)
 
