@@ -60,7 +60,7 @@ plot1
 
 # Save output plots in output folder
 setwd(DirOUTP)
-ggsave(plot1, file="Defo-LCC-CADT-Road-Dev-Buffer-1-15x15.pdf", width=30, height=15, units="cm", dpi=300)
+ggsave(plot1, file="LCC-CADT-Road-Dev-Buffer-1-15x15.pdf", width=30, height=15, units="cm", dpi=300)
 
 
 
